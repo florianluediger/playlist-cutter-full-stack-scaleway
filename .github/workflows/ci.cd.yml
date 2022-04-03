@@ -34,8 +34,6 @@ jobs:
      
     - name: Execute build
       run: npm run build
-      env:
-        REACT_APP_CLIENT_ID: ${{secrets.REACT_APP_CLIENT_ID}}
 
     - name: Deploy
       run: |
