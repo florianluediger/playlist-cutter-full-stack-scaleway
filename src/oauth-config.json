@@ -1,0 +1,4 @@
+{
+  "OAUTH_PROVIDER": "https://accounts.spotify.com",
+  "TOKEN_PROVIDER": "https://accounts.spotify.com/api/token"
+}
