@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "react-oauth2-pkce";
+import { PlaylistList } from "./PlaylistList/PlaylistList";
 
 export function Home() {
   const { authService } = useAuth();
@@ -19,7 +20,7 @@ export function Home() {
   if (!authService.isAuthenticated()) {
     return (
       <div>
-        <p>Not Logged in yet: {authService.getAuthTokens().id_token} </p>
+        <p>Not Logged in yet: </p>
         <button onClick={login}>Login</button>
       </div>
     );
@@ -27,8 +28,8 @@ export function Home() {
 
   return (
     <div>
-      <p>Logged in! {authService.getAuthTokens().id_token}</p>
       <button onClick={logout}>Logout</button>
+      <PlaylistList />
     </div>
   );
 }

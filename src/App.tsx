@@ -2,7 +2,7 @@ import React from "react";
 import { AuthProvider, AuthService } from "react-oauth2-pkce";
 import { RootRoute } from "./RootRoute";
 
-import oauthConfig from "./oauth-config.json";
+import oauthConfig from "./config/oauth-config.json";
 
 const authService = new AuthService({
   clientId: process.env.REACT_APP_CLIENT_ID || oauthConfig.CLIENT_ID,
