@@ -1,12 +1,12 @@
 import React from "react";
-import { PlaylistList } from "./PlaylistList/PlaylistList";
 import { Header } from "./Header/Header";
+import ContentBase from "./ContentBase";
 
 export function Base() {
   return (
-    <div>
+    <div className="divide-y">
       <Header />
-      <PlaylistList />
+      <ContentBase />
     </div>
   );
 }

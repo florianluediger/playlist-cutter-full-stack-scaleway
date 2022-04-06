@@ -1,33 +1,11 @@
-import { useAuth } from "react-oauth2-pkce";
 import React from "react";
+import { LogInOutButton } from "./LogInOutButton";
 
 export function Header() {
-  const { authService } = useAuth();
-
-  async function login() {
-    authService.authorize();
-  }
-
-  async function logout() {
-    await authService.logout();
-  }
-
-  if (authService.isPending()) {
-    return <div>Loading...</div>;
-  }
-
-  if (!authService.isAuthenticated()) {
-    return (
-      <div>
-        <p>Not Logged in yet: </p>
-        <button onClick={login}>Login</button>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <button onClick={logout}>Logout</button>
+    <div className="flex flex-row flex-nowrap justify-between mx-10 my-3">
+      <h1 className="text-xl">Spotify Smart Playlists</h1>
+      <LogInOutButton />
     </div>
   );
 }
