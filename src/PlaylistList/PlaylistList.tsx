@@ -1,5 +1,6 @@
 import { useAuth } from "react-oauth2-pkce";
 import { usePlaylists } from "./usePlaylists";
+import { PlaylistListItem } from "./PlaylistListItem";
 
 export function PlaylistList() {
   const { authService } = useAuth();
@@ -11,10 +12,14 @@ export function PlaylistList() {
   if (!playlists) return <div>Loading...</div>;
 
   return (
-    <ul>
-      {playlists.map((playlist) => (
-        <li>{playlist.name}</li>
-      ))}
-    </ul>
+    <div>
+      <div className="rounded overflow-hidden shadow-lg">
+        <div className="m-5">
+          {playlists.map((p) => (
+            <PlaylistListItem playlist={p} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
