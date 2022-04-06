@@ -1,8 +1,7 @@
-import React from "react";
 import { useAuth } from "react-oauth2-pkce";
-import { PlaylistList } from "./PlaylistList/PlaylistList";
+import React from "react";
 
-export function Home() {
+export function Header() {
   const { authService } = useAuth();
 
   async function login() {
@@ -10,7 +9,7 @@ export function Home() {
   }
 
   async function logout() {
-    authService.logout();
+    await authService.logout();
   }
 
   if (authService.isPending()) {
@@ -29,9 +28,6 @@ export function Home() {
   return (
     <div>
       <button onClick={logout}>Logout</button>
-      <PlaylistList />
     </div>
   );
 }
-
-export default Home;
