@@ -1,6 +1,7 @@
 import { PlaylistList } from "./PlaylistList/PlaylistList";
 import { useAuth } from "react-oauth2-pkce";
 import React, { FormEvent, useState } from "react";
+import { generatePlaylist } from "./PlaylistGeneration/PlaylistGenerator";
 
 export function ContentBase() {
   const { authService } = useAuth();
@@ -20,12 +21,12 @@ export function ContentBase() {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log("IncludePlaylists:");
-    console.log(includePlaylists);
-    console.log("ExcludePlaylists");
-    console.log(excludePlaylists);
-    console.log("Name");
-    console.log(newName);
+    generatePlaylist(
+      includePlaylists,
+      excludePlaylists,
+      newName,
+      authService.getAuthTokens().access_token
+    );
   }
 
   return (
