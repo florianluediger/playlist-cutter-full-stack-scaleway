@@ -42,7 +42,7 @@ export function PlaylistList({
       <div className="rounded overflow-hidden shadow-lg">
         <div className="m-5">
           {playlists.map((p) => (
-            <PlaylistListItem playlist={p} onChange={onItemChange} />
+            <PlaylistListItem key={p.id} playlist={p} onChange={onItemChange} />
           ))}
         </div>
       </div>
