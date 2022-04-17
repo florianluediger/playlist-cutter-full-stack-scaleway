@@ -14,7 +14,18 @@ export function PlaylistList({
     authService.getAuthTokens().access_token
   );
 
-  if (error) return <div>Failed to load</div>;
+  if (error) {
+    if (error.status === 401) {
+      alert("Session expired. You were logged out.")
+      authService.logout();
+    }
+    return (
+        <div>
+        <p>Failed to load</p>
+        <p>{{error}}</p>
+        </div>
+    );
+  }
   if (!playlists) return <div>Loading...</div>;
 
   function onItemChange(playlistId: string, checked: boolean) {
