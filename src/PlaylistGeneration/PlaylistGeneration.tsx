@@ -21,10 +21,10 @@ export function PlaylistGeneration({
     }
     return (
         <div className="flex justify-center items-center pt-10">
-            <div className="rounded overflow-hidden shadow-lg">
+            <div className="rounded-md overflow-hidden border">
                 <div className="m-5">
                     <div className="flex flex-col justify-center items-center">
-                        <div className="relative h-20">
+                        <div className="relative h-20 -left-5">
                             <div className="animate-bounce-spin-bounce absolute">
                                 <div className="animate-bounce-spin-spin">
                                     <p className="text-7xl font-spotify-smart-playlists">S</p>

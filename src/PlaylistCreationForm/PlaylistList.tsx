@@ -39,8 +39,8 @@ export function PlaylistList({
 
     return (
         <div>
-            <div className="rounded overflow-hidden shadow-lg">
-                <div className="m-5">
+            <div className="rounded-md border border-slate-300 overflow-hidden">
+                <div className="mx-4 my-3">
                     {playlists.map((p) => (
                         <PlaylistListItem key={p.id} playlist={p} onChange={onItemChange}/>
                     ))}

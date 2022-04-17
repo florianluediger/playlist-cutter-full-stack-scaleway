@@ -74,7 +74,7 @@ export function PlaylistCreationForm({
                     <input
                         type="submit"
                         value="Let's go!"
-                        className="text-xl ml-5 inline border-2 border-slate-500 rounded-lg px-3 py-2 mt-2 md:mt-0 hover:bg-slate-100"
+                        className="text-xl ml-5 inline border border-slate-300 rounded-md px-3 py-2 mt-2 md:mt-0 hover:bg-slate-100"
                     />
                 </div>
             </form>
