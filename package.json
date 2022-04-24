@@ -1,8 +1,8 @@
 {
-  "name": "spotify-smart-playlists",
+  "name": "playlist-cutter",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://florianluediger.github.io/spotify-smart-playlists",
+  "homepage": "https://florianluediger.github.io/playlist-cutter",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",

@@ -7,7 +7,7 @@ export const RootRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/spotify-smart-playlists" element={<Base />} />
+        <Route path="/playlist-cutter" element={<Base />} />
       </Routes>
     </BrowserRouter>
   );

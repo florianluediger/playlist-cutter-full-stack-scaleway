@@ -3,7 +3,7 @@ module.exports = {
     theme: {
         fontFamily: {
             body: ["Oswald"],
-            "spotify-smart-playlists": ["Knewave"]
+            "playlist-cutter": ["Knewave"]
         },
         extend: {
             animation: {

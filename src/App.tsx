@@ -8,7 +8,7 @@ const authService = new AuthService({
   clientId: process.env.REACT_APP_CLIENT_ID || oauthConfig.CLIENT_ID,
   location: window.location,
   provider: oauthConfig.OAUTH_PROVIDER,
-  redirectUri: window.location.origin + "/spotify-smart-playlists",
+  redirectUri: window.location.origin + "/playlist-cutter",
   tokenEndpoint: oauthConfig.TOKEN_PROVIDER,
   scopes: [
     "playlist-modify-private",
