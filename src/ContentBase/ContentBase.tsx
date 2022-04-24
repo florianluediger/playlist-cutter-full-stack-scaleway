@@ -8,7 +8,7 @@ import {useAuth} from "react-oauth2-pkce";
 
 export function ContentBase() {
     const [generationStatus, setGenerationStatus] = useState(GenerationStatus.INACTIVE)
-    const [playlistGenerationInput, setPlaylistGenerationInput] = useState(emptyPlaylistGenerationInput)
+    const [playlistGenerationInput, setPlaylistGenerationInput] = useState(emptyPlaylistGenerationInput())
     const {authService} = useAuth();
 
     function triggerGeneration() {
@@ -19,7 +19,7 @@ export function ContentBase() {
             authService.getAuthTokens().access_token,
             setGenerationStatus
         ).then(() => {
-            setPlaylistGenerationInput(emptyPlaylistGenerationInput)
+            setPlaylistGenerationInput(emptyPlaylistGenerationInput())
             setGenerationStatus(GenerationStatus.INACTIVE)
         })
     }

@@ -4,8 +4,10 @@ export type PlaylistGenerationInput = {
     newName: string
 }
 
-export const emptyPlaylistGenerationInput: PlaylistGenerationInput = {
-    includePlaylists: [],
-    excludePlaylists: [],
-    newName: ""
+export function emptyPlaylistGenerationInput(): PlaylistGenerationInput {
+    return {
+        includePlaylists: [],
+        excludePlaylists: [],
+        newName: ""
+    };
 }

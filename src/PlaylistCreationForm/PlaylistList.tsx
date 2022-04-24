@@ -30,8 +30,7 @@ export function PlaylistList({
 
     function onItemChange(playlistId: string, checked: boolean) {
         if (checked) {
-            checkedPlaylists.push(playlistId);
-            setCheckedList(checkedPlaylists);
+            setCheckedList([...checkedPlaylists, playlistId]);
         } else {
             setCheckedList(checkedPlaylists.filter((p) => p !== playlistId));
         }

@@ -30,20 +30,26 @@ export function PlaylistCreationForm({
         triggerGeneration()
     }
 
-    function setIncludePlaylists(list: string[]) {
-        playlistGenerationInput.includePlaylists = list
-        setPlaylistGenerationInput(playlistGenerationInput)
+    function setIncludePlaylists(includePlaylists: string[]) {
+        setPlaylistGenerationInput({
+            ...playlistGenerationInput,
+            includePlaylists
+        })
     }
 
-    function setExcludePlaylists(list: string[]) {
-        playlistGenerationInput.excludePlaylists = list
-        setPlaylistGenerationInput(playlistGenerationInput)
+    function setExcludePlaylists(excludePlaylists: string[]) {
+        setPlaylistGenerationInput({
+            ...playlistGenerationInput,
+            excludePlaylists
+        })
     }
 
     function setNewName(newName: string) {
-        playlistGenerationInput.newName = newName
         setLocalName(newName)
-        setPlaylistGenerationInput(playlistGenerationInput)
+        setPlaylistGenerationInput({
+            ...playlistGenerationInput,
+            newName
+        })
     }
 
     return (
