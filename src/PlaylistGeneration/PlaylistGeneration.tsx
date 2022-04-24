@@ -1,4 +1,5 @@
 import {GenerationStatus} from "./GenerationStatus";
+import {ReactComponent as Knife} from "../knife.svg";
 
 export function PlaylistGeneration({
                                        generationStatus
@@ -24,14 +25,14 @@ export function PlaylistGeneration({
             <div className="rounded-md overflow-hidden border">
                 <div className="m-5">
                     <div className="flex flex-col justify-center items-center">
-                        <div className="relative h-20 -left-5">
+                        <div className="relative w-32 h-32">
                             <div className="animate-bounce-spin-bounce absolute">
                                 <div className="animate-bounce-spin-spin">
-                                    <p className="text-7xl font-spotify-smart-playlists">S</p>
+                                    <Knife width="128" height="128"/>
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-5">
+                        <div className="mt-10">
                             <p>{message}</p>
                         </div>
                     </div>
