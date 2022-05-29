@@ -28,6 +28,6 @@ it("generates playlist when input is correct", async () => {
     await generatePlaylist(includePlaylists, excludePlaylists, name, accessToken, setGenerationStatus);
 
     expect(setGenerationStatus).toHaveBeenCalledTimes(4);
-    expect(createPlaylist).toHaveBeenCalledWith(resultingTracks, name, accessToken);
+    expect(createPlaylist).toHaveBeenCalledWith(name, accessToken);
     expect(addTracksToPlaylist).toHaveBeenCalledWith(resultingTracks, playlistId, accessToken);
 });
