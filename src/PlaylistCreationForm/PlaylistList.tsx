@@ -22,7 +22,7 @@ export function PlaylistList({
         return (
             <div>
                 <p>Failed to load</p>
-                <p>{{error}}</p>
+                <p>{error.status}</p>
             </div>
         );
     }
