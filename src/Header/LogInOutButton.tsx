@@ -1,8 +1,9 @@
 import { useAuth } from "react-oauth2-pkce";
-import React from "react";
+import React, {useState} from "react";
 
 export function LogInOutButton() {
   const { authService } = useAuth();
+  const [loginTimeout, setLoginTimeout] = useState<NodeJS.Timeout | null>(null);
 
   async function login() {
     authService.authorize();
@@ -12,7 +13,18 @@ export function LogInOutButton() {
     await authService.logout();
   }
 
+  function loginTimeoutCallback() {
+    if (loginTimeout != null) {
+      clearTimeout(loginTimeout);
+      setLoginTimeout(null);
+    }
+    authService.logout();
+  }
+
   if (authService.isPending()) {
+    if (loginTimeout == null) {
+      setLoginTimeout(setTimeout(loginTimeoutCallback, 1000));
+    }
     return <p>Loading...</p>;
   }
 
