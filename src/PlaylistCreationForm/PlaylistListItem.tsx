@@ -9,13 +9,14 @@ export function PlaylistListItem({
 }) {
     return (
         <div className="flex flex-row flex-nowrap justify-start">
-            <input
-                name={playlist.id}
-                className="mt-2"
-                type="checkbox"
-                onChange={(e) => onChange(e.target.name, e.target.checked)}
-            />
-            <p className="align-middle ml-2 text-xl">{playlist.name}</p>
+            <label>
+                <input
+                    name={playlist.id}
+                    className="mt-2 inline"
+                    type="checkbox"
+                    onChange={(e) => onChange(e.target.name, e.target.checked)}/>
+                <p className="ml-2 text-xl inline">{playlist.name}</p>
+            </label>
         </div>
     );
 }
