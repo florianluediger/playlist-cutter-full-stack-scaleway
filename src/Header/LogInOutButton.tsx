@@ -1,5 +1,6 @@
 import { useAuth } from "react-oauth2-pkce";
 import React, {useState} from "react";
+import spotify_logo from "../spotify_logo.png";
 
 export function LogInOutButton() {
   const { authService } = useAuth();
@@ -31,14 +32,14 @@ export function LogInOutButton() {
   if (!authService.isAuthenticated()) {
     return (
       <button className="text-xl" onClick={login}>
-        Login
+        Log in with <img className="h-8 inline ml-1 -mt-2" src={spotify_logo} alt="Spotify"/>
       </button>
     );
   }
 
   return (
     <button className="text-xl" onClick={logout}>
-      Logout
+      Log out from <img className="h-8 inline ml-1 -mt-2" src={spotify_logo} alt="Spotify"/>
     </button>
   );
 }

@@ -20,7 +20,7 @@ export function PlaylistCreationForm({
         return (
             <div>
                 <p className="flex justify-center my-10 text-xl">
-                    Please log in via Spotify
+                    Please log in
                 </p>
             </div>
         );
