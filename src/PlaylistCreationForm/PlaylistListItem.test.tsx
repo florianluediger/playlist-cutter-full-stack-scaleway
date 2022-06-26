@@ -5,6 +5,9 @@ it("calls onChange method with correct parameters when checkbox is checked", () 
     let plist = {
         id: "playlistId",
         name: "playlistName",
+        external_urls: {
+            "spotify": "url"
+        },
         tracks: {
             href: "href",
             total: 0

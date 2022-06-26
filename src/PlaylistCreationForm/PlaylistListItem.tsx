@@ -1,4 +1,5 @@
 import {Playlist} from "./Playlist";
+import spotify_icon from "../spotify_icon.png";
 
 export function PlaylistListItem({
                                      playlist,
@@ -15,6 +16,7 @@ export function PlaylistListItem({
                     className="mt-2 inline"
                     type="checkbox"
                     onChange={(e) => onChange(e.target.name, e.target.checked)}/>
+                <a className="ml-2 text-xl inline" href={playlist.external_urls.spotify}><img className="h-6 inline -mt-1" src={spotify_icon} alt="Spotify"/></a>
                 <p className="ml-2 text-xl inline">{playlist.name}</p>
             </label>
         </div>
