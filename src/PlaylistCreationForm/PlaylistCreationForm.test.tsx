@@ -32,6 +32,9 @@ let playlistExampleData = {
         {
             id: "plist1Id",
             name: "plist1",
+            external_urls: {
+                spotify: "spotify_url_1"
+            },
             tracks: {
                 href: "href",
                 total: 0
@@ -40,6 +43,9 @@ let playlistExampleData = {
         {
             id: "plist2Id",
             name: "plist2",
+            external_urls: {
+                spotify: "spotify_url_2"
+            },
             tracks: {
                 href: "href",
                 total: 0
@@ -48,6 +54,9 @@ let playlistExampleData = {
         {
             id: "plist3Id",
             name: "plist3",
+            external_urls: {
+                spotify: "spotify_url_3"
+            },
             tracks: {
                 href: "href",
                 total: 0
@@ -112,7 +121,7 @@ it("shows an error when user is not authenticated", () => {
                                  playlistGenerationInput={emptyPlaylistGenerationInput()}
                                  setPlaylistGenerationInput={jest.fn()}/>);
 
-    expect(screen.getByText("Please log in via Spotify")).toBeInTheDocument();
+    expect(screen.getByText("Please log in")).toBeInTheDocument();
 })
 
 it("paints input border red when no name is specified at button click", () => {

@@ -33,6 +33,9 @@ let successfulUsePlaylistResult = {
         {
             id: "plist1Id",
             name: "plist1",
+            external_urls: {
+                spotify: "spotify_url_1"
+            },
             tracks: {
                 href: "href",
                 total: 0
@@ -41,6 +44,9 @@ let successfulUsePlaylistResult = {
         {
             id: "plist2Id",
             name: "plist2",
+            external_urls: {
+                spotify: "spotify_url_2"
+            },
             tracks: {
                 href: "href",
                 total: 0
@@ -49,6 +55,9 @@ let successfulUsePlaylistResult = {
         {
             id: "plist3Id",
             name: "plist3",
+            external_urls: {
+                spotify: "spotify_url_3"
+            },
             tracks: {
                 href: "href",
                 total: 0
