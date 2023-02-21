@@ -94,6 +94,7 @@ function fetchBatchOfTracks(
         .then((batchOfTracks) => {
             let uriList = batchOfTracks.items
                 .map((item) => item.track)
+                .filter((track) => track != null)
                 .map((tracks) => tracks.uri);
             if (batchOfTracks.next != null) {
                 return fetchBatchOfTracks(
