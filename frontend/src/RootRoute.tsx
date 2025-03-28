@@ -7,7 +7,7 @@ export const RootRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/playlist-cutter" element={<Base />} />
+        <Route path="/" element={<Base />} />
       </Routes>
     </BrowserRouter>
   );

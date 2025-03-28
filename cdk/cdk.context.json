@@ -1,0 +1,10 @@
+{
+  "hosted-zone:account=241314003741:domainName=luediger.link:region=eu-central-1": {
+    "Id": "/hostedzone/Z036772186QFUM1XWT6P",
+    "Name": "luediger.link."
+  },
+  "hosted-zone:account=241314003741:domainName=luediger.link:region=us-east-1": {
+    "Id": "/hostedzone/Z036772186QFUM1XWT6P",
+    "Name": "luediger.link."
+  }
+}
