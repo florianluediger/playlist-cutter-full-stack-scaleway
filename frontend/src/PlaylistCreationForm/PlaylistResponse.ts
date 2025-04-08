@@ -1,5 +1,5 @@
-import {Playlist} from "./Playlist";
+import { Playlist } from "./Playlist";
 
 export type PlaylistResponse = {
-    items: Playlist[];
+  items: Playlist[];
 };

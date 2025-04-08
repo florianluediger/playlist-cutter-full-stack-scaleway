@@ -9,5 +9,10 @@
   ],
   "scripts": {
     "cdk": "npm -w cdk run cdk"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.2",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1"
   }
 }
