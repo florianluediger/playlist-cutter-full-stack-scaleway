@@ -43,9 +43,7 @@ export class BackendStack extends cdk.Stack {
     new route53.ARecord(this, "ApiDnsRecord", {
       zone: hostedZone,
       recordName: "api",
-      target: route53.RecordTarget.fromAlias(
-        new targets.ApiGateway(api)
-      ),
+      target: route53.RecordTarget.fromAlias(new targets.ApiGateway(api)),
     });
   }
-} 
+}
