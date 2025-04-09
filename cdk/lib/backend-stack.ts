@@ -1,7 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
@@ -34,6 +33,10 @@ export class BackendStack extends cdk.Stack {
     });
 
     new PlaylistsApi(this, "PlaylistsApi", {
+      env: {
+        account: this.account,
+        region: this.region,
+      },
       api: api,
     });
 
