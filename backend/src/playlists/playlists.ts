@@ -3,6 +3,7 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { RestApi } from "aws-cdk-lib/aws-apigateway";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 
 export interface PlaylistsApiProps {
   env: {
@@ -10,6 +11,7 @@ export interface PlaylistsApiProps {
     region: string;
   };
   api: RestApi;
+  usersTable: dynamodb.Table;
 }
 
 export class PlaylistsApi extends Construct {
@@ -48,6 +50,19 @@ export class PlaylistsApi extends Construct {
           `arn:aws:kms:${props.env.region}:${props.env.account}:alias/aws/ssm`,
         ],
       })
+    );
+
+    playlistApiFunction.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["dynamodb:GetItem"],
+        resources: [props.usersTable.tableArn],
+      })
+    );
+
+    playlistApiFunction.addEnvironment(
+      "USERS_TABLE_NAME",
+      props.usersTable.tableName
     );
 
     const integration = new apigateway.LambdaIntegration(playlistApiFunction);

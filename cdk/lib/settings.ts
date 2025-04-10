@@ -4,4 +4,6 @@ export const settings = {
     account: "241314003741",
   },
   domainName: "luediger.link",
+  apiDomainName: "api.luediger.link",
+  frontendDomainName: "www.luediger.link",
 };
