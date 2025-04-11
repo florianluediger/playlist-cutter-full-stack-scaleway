@@ -11,6 +11,7 @@ export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
     // Get the authorization code from the query parameters
     const code = event.queryStringParameters?.code;
 
@@ -81,17 +82,13 @@ export const handler = async (
 
     await dynamoClient.send(putUserCommand);
 
-    // Redirect to the frontend with an HTTP-only cookie containing the userId
-    const redirectUrl = `${
-      process.env.FRONTEND_URL || "http://localhost:3000"
-    }`;
-
     return {
       statusCode: 302,
       headers: {
-        Location: redirectUrl,
-        "Access-Control-Allow-Origin": "*",
-        "Set-Cookie": `userId=${userId}; HttpOnly; Secure; SameSite=Strict; Path=/`,
+        Location: frontendUrl,
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
+        "Set-Cookie": `userId=${userId}; HttpOnly; Path=/; SameSite=None; Secure`,
       },
       body: "",
     };

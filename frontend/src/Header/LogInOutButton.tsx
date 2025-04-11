@@ -1,35 +1,42 @@
-import { useAuth } from "react-oauth2-pkce";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import spotify_logo from "../spotify_logo.png";
 
 export function LogInOutButton() {
-  const { authService } = useAuth();
-  const [loginTimeout, setLoginTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/spotify/status`, {
+          credentials: 'include'
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          setIsAuthenticated(data.isAuthenticated === true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    }
+    checkAuthStatus();
+  }, []);
 
   async function login() {
-    authService.authorize();
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/spotify`;
   }
 
   async function logout() {
-    await authService.logout();
+    //todo
   }
 
-  function loginTimeoutCallback() {
-    if (loginTimeout != null) {
-      clearTimeout(loginTimeout);
-      setLoginTimeout(null);
-    }
-    authService.logout();
+  function getCookie(key: string) {
+    var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
+    return b ? b.pop() : "";
   }
 
-  if (authService.isPending()) {
-    if (loginTimeout == null) {
-      setLoginTimeout(setTimeout(loginTimeoutCallback, 1000));
-    }
-    return <p>Loading...</p>;
-  }
-
-  if (!authService.isAuthenticated()) {
+  if (!isAuthenticated) {
     return (
       <button className="text-xl" onClick={login}>
         Log in with{" "}

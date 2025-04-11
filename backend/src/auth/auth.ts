@@ -41,6 +41,14 @@ export class AuthApi extends Construct {
       },
     });
 
+    // Create the status check function
+    const statusFunction = new NodejsFunction(this, "status-function", {
+      environment: {
+        FRONTEND_URL: `https://${props.frontendDomainName}`,
+        USERS_TABLE_NAME: props.usersTable.tableName,
+      },
+    });
+
     // Grant permissions to access SSM parameters
     [spotifyAuthFunction, spotifyCallbackFunction].forEach((fn) => {
       fn.addToRolePolicy(
@@ -55,22 +63,25 @@ export class AuthApi extends Construct {
     });
 
     // Grant permissions to access DynamoDB
-    spotifyCallbackFunction.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem",
-        ],
-        resources: [props.usersTable.tableArn],
-      })
-    );
+    [spotifyCallbackFunction, statusFunction].forEach((fn) => {
+      fn.addToRolePolicy(
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            "dynamodb:GetItem",
+            "dynamodb:PutItem",
+            "dynamodb:UpdateItem",
+          ],
+          resources: [props.usersTable.tableArn],
+        })
+      );
+    });
 
     // Create API Gateway resources and methods
     const authResource = props.api.root.addResource("auth");
     const spotifyResource = authResource.addResource("spotify");
     const callbackResource = spotifyResource.addResource("callback");
+    const statusResource = spotifyResource.addResource("status");
 
     // Add methods to the resources
     spotifyResource.addMethod(
@@ -80,6 +91,10 @@ export class AuthApi extends Construct {
     callbackResource.addMethod(
       "GET",
       new apigateway.LambdaIntegration(spotifyCallbackFunction)
+    );
+    statusResource.addMethod(
+      "GET",
+      new apigateway.LambdaIntegration(statusFunction)
     );
   }
 }

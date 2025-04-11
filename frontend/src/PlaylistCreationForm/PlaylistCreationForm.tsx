@@ -14,11 +14,10 @@ export function PlaylistCreationForm({
     playlistGenerationInput: PlaylistGenerationInput
   ) => void;
 }) {
-  const { authService } = useAuth();
   const [localName, setLocalName] = useState("");
   const [nameErrorStyle, setNameErrorStyle] = useState("");
 
-  if (!authService.isAuthenticated()) {
+  if (true) { //todo
     return (
       <div>
         <p className="flex justify-center my-10 text-xl">Please log in</p>

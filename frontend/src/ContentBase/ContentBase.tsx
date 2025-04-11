@@ -3,8 +3,6 @@ import { useState } from "react";
 import { GenerationStatus } from "../PlaylistGeneration/GenerationStatus";
 import PlaylistGeneration from "../PlaylistGeneration/PlaylistGeneration";
 import { emptyPlaylistGenerationInput } from "./PlaylistGenerationInput";
-import { generatePlaylist } from "../PlaylistGeneration/PlaylistGenerator";
-import { useAuth } from "react-oauth2-pkce";
 
 export function ContentBase() {
   const [generationStatus, setGenerationStatus] = useState(
@@ -13,19 +11,11 @@ export function ContentBase() {
   const [playlistGenerationInput, setPlaylistGenerationInput] = useState(
     emptyPlaylistGenerationInput()
   );
-  const { authService } = useAuth();
 
   function triggerGeneration() {
-    generatePlaylist(
-      playlistGenerationInput.includePlaylists,
-      playlistGenerationInput.excludePlaylists,
-      playlistGenerationInput.newName,
-      authService.getAuthTokens().access_token,
-      setGenerationStatus
-    ).then(() => {
+    //todo
       setPlaylistGenerationInput(emptyPlaylistGenerationInput());
       setGenerationStatus(GenerationStatus.INACTIVE);
-    });
   }
 
   if (generationStatus === GenerationStatus.INACTIVE) {
