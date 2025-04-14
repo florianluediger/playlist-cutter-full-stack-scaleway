@@ -88,7 +88,7 @@ export const handler = async (
         Location: frontendUrl,
         "Access-Control-Allow-Origin": frontendUrl,
         "Access-Control-Allow-Credentials": "true",
-        "Set-Cookie": `userId=${userId}; HttpOnly; Path=/; SameSite=None; Secure`,
+        "Set-Cookie": `userId=${userId}; Domain=luediger.link; Path=/; SameSite=None; Secure`,
       },
       body: "",
     };
