@@ -42,7 +42,8 @@ export const handler = async (
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": frontendUrl,
         "Access-Control-Allow-Credentials": "true",
-        "Set-Cookie": "userId=; Domain=luediger.link; Path=/; SameSite=None; Secure; Max-Age=0",
+        "Set-Cookie":
+          "userId=; Domain=luediger.link; Path=/; SameSite=None; Secure; Max-Age=0",
       },
       body: JSON.stringify({ message: "Logged out successfully" }),
     };
@@ -57,4 +58,4 @@ export const handler = async (
       body: JSON.stringify({ error: "Logout failed" }),
     };
   }
-}; 
+};

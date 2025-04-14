@@ -17,7 +17,8 @@ export function PlaylistCreationForm({
   const [localName, setLocalName] = useState("");
   const [nameErrorStyle, setNameErrorStyle] = useState("");
 
-  if (true) { //todo
+  if (true) {
+    //todo
     return (
       <div>
         <p className="flex justify-center my-10 text-xl">Please log in</p>

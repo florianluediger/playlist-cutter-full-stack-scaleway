@@ -7,7 +7,7 @@ const dynamoClient = new DynamoDBClient({});
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
   try {
     // Extract userId from the cookie
     const cookies = event.headers.Cookie || event.headers.cookie || "";
@@ -62,8 +62,8 @@ export const handler = async (
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": frontendUrl,
-          "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
       },
       body: JSON.stringify({
         isAuthenticated: true,
@@ -75,8 +75,8 @@ export const handler = async (
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": frontendUrl,
-          "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
       },
       body: JSON.stringify({
         isAuthenticated: false,
@@ -84,4 +84,4 @@ export const handler = async (
       }),
     };
   }
-}; 
+};

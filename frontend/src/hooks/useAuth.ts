@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -20,19 +20,22 @@ export function useAuth() {
 
   const logout = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/spotify/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/spotify/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
       if (response.ok) {
         setIsAuthenticated(false);
-        window.location.href = '/';
+        window.location.href = "/";
       }
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
   };
 
   return { isAuthenticated, login, logout };
-} 
+}

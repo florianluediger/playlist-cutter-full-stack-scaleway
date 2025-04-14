@@ -14,8 +14,8 @@ export function ContentBase() {
 
   function triggerGeneration() {
     //todo
-      setPlaylistGenerationInput(emptyPlaylistGenerationInput());
-      setGenerationStatus(GenerationStatus.INACTIVE);
+    setPlaylistGenerationInput(emptyPlaylistGenerationInput());
+    setGenerationStatus(GenerationStatus.INACTIVE);
   }
 
   if (generationStatus === GenerationStatus.INACTIVE) {
