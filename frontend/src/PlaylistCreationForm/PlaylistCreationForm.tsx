@@ -17,7 +17,7 @@ export function PlaylistCreationForm({
   playlists: Playlist[];
 }) {
   const [localName, setLocalName] = useState("");
-  const [nameErrorStyle, setNameErrorStyle] = useState("");
+  const [nameStyle, setNameStyle] = useState("border-slate-400 border-b-2");
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
@@ -31,7 +31,7 @@ export function PlaylistCreationForm({
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     if (localName === "") {
-      setNameErrorStyle("border-rose-600");
+      setNameStyle("border-rose-600 border-2");
       return;
     }
     triggerGeneration();
@@ -52,7 +52,7 @@ export function PlaylistCreationForm({
   }
 
   function setNewName(newName: string) {
-    setNameErrorStyle("");
+    setNameStyle("border-slate-400 border-b-2");
     setLocalName(newName);
     setPlaylistGenerationInput({
       ...playlistGenerationInput,
@@ -82,7 +82,7 @@ export function PlaylistCreationForm({
         <div className="col-span-1 md:col-span-2 mt-5">
           <p className="text-xl ml-5 inline">... in a playlist called</p>
           <input
-            className={`border-b-2 border-slate-400 ml-3 focus:outline-none focus:border-black text-xl inline ${nameErrorStyle}`}
+            className={`ml-3 focus:outline-none focus:border-black text-xl inline ${nameStyle}`}
             type="text"
             value={localName}
             onChange={(name) => setNewName(name.target.value)}

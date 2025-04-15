@@ -4,35 +4,40 @@ import {
   emptyPlaylistGenerationInput,
   Playlist,
 } from "@playlist-cutter/common";
+import PlaylistGeneration from "../PlaylistCreationForm/PlaylistGeneration";
+import { useAuth } from "../hooks/useAuth";
 
 export function ContentBase() {
   const [playlistGenerationInput, setPlaylistGenerationInput] = useState(
     emptyPlaylistGenerationInput()
   );
+  const [generationActive, setGenerationActive] = useState<Boolean>(false);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    fetchPlaylists().then((playlists) => {
-      setPlaylists(playlists);
-    });
-  }, []);
-
-  async function fetchPlaylists(): Promise<Playlist[]> {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/playlists`,
-        {
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      return [];
+    if (isAuthenticated) {
+      fetchPlaylists();
     }
+  }, [isAuthenticated]);
+
+  function fetchPlaylists() {
+    fetch(`${process.env.REACT_APP_API_URL}/playlists`, {
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Error fetching playlists");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPlaylists(data);
+      });
   }
 
   function triggerGeneration() {
+    setGenerationActive(true);
     fetch(`${process.env.REACT_APP_API_URL}/playlists/generation`, {
       method: "POST",
       credentials: "include",
@@ -43,31 +48,33 @@ export function ContentBase() {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          return response.json().then((errorData) => {
+            console.error("Error generating playlist:", errorData.error);
+          });
         }
-        return response.json();
-      })
-      .then((data) => {
-        // Refresh the playlists after successful generation
-        fetchPlaylists().then((playlists) => {
-          setPlaylists(playlists);
-        });
+        fetchPlaylists();
       })
       .catch((error) => {
         console.error("Error generating playlist:", error);
+      })
+      .finally(() => {
+        setPlaylistGenerationInput(emptyPlaylistGenerationInput());
+        setGenerationActive(false);
       });
-
-    setPlaylistGenerationInput(emptyPlaylistGenerationInput());
   }
 
-  return (
-    <PlaylistCreationForm
-      triggerGeneration={triggerGeneration}
-      playlistGenerationInput={playlistGenerationInput}
-      setPlaylistGenerationInput={setPlaylistGenerationInput}
-      playlists={playlists}
-    />
-  );
+  if (generationActive) {
+    return <PlaylistGeneration />;
+  } else {
+    return (
+      <PlaylistCreationForm
+        triggerGeneration={triggerGeneration}
+        playlistGenerationInput={playlistGenerationInput}
+        setPlaylistGenerationInput={setPlaylistGenerationInput}
+        playlists={playlists}
+      />
+    );
+  }
 }
 
 export default ContentBase;

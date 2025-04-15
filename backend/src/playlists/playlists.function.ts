@@ -11,7 +11,15 @@ export const handler = async (
   try {
     const authResult = await authenticateUser(event);
     if (authResult.errorResponse) {
-      return authResult.errorResponse;
+      return {
+        statusCode: 401,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": frontendUrl,
+          "Access-Control-Allow-Credentials": "true",
+        },
+        body: authResult.errorResponse.body,
+      };
     }
 
     const { accessToken } = authResult.user!;

@@ -113,12 +113,12 @@ export class PlaylistsApi extends Construct {
     };
 
     // Add OPTIONS method for CORS preflight requests
-    generationResource.addMethod(
+    apiResource.addMethod(
       "OPTIONS",
       new apigateway.MockIntegration(corsConfig),
       corsMethodResponse
     );
-    apiResource.addMethod(
+    generationResource.addMethod(
       "OPTIONS",
       new apigateway.MockIntegration(corsConfig),
       corsMethodResponse

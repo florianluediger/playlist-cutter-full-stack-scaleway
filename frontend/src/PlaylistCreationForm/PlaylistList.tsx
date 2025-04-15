@@ -10,7 +10,7 @@ export function PlaylistList({
   setCheckedList: (list: string[]) => void;
   playlists: Playlist[];
 }) {
-  if (!playlists) return <div>Loading...</div>;
+  if (!playlists || playlists.length === 0) return <div>Loading...</div>;
 
   function onItemChange(playlistId: string, checked: boolean) {
     if (checked) {
