@@ -6,10 +6,14 @@
   "workspaces": [
     "frontend",
     "cdk",
-    "backend"
+    "backend",
+    "common"
   ],
   "scripts": {
-    "cdk": "npm -w cdk run cdk"
+    "cdk": "npm -w cdk run cdk",
+    "build": "npm run build:common && npm run build:frontend",
+    "build:common": "npm -w common run build",
+    "build:frontend": "npm -w frontend run build"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.535.0",

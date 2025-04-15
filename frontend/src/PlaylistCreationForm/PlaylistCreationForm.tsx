@@ -1,24 +1,26 @@
 import { PlaylistList } from "./PlaylistList";
-import { useAuth } from "react-oauth2-pkce";
 import React, { FormEvent, useState } from "react";
 import { PlaylistGenerationInput } from "../ContentBase/PlaylistGenerationInput";
-
+import { useAuth } from "../hooks/useAuth";
+import { Playlist } from "@playlist-cutter/common";
 export function PlaylistCreationForm({
   triggerGeneration,
   playlistGenerationInput,
   setPlaylistGenerationInput,
+  playlists,
 }: {
   triggerGeneration: () => void;
   playlistGenerationInput: PlaylistGenerationInput;
   setPlaylistGenerationInput: (
     playlistGenerationInput: PlaylistGenerationInput
   ) => void;
+  playlists: Playlist[];
 }) {
   const [localName, setLocalName] = useState("");
   const [nameErrorStyle, setNameErrorStyle] = useState("");
+  const { isAuthenticated } = useAuth();
 
-  if (true) {
-    //todo
+  if (!isAuthenticated) {
     return (
       <div>
         <p className="flex justify-center my-10 text-xl">Please log in</p>
@@ -66,6 +68,7 @@ export function PlaylistCreationForm({
           <PlaylistList
             checkedPlaylists={playlistGenerationInput.includePlaylists}
             setCheckedList={setIncludePlaylists}
+            playlists={playlists}
           />
         </div>
         <div className="mx-5">
@@ -73,6 +76,7 @@ export function PlaylistCreationForm({
           <PlaylistList
             checkedPlaylists={playlistGenerationInput.excludePlaylists}
             setCheckedList={setExcludePlaylists}
+            playlists={playlists}
           />
         </div>
         <div className="col-span-1 md:col-span-2 mt-5">

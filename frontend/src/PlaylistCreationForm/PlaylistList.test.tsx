@@ -79,6 +79,7 @@ describe("PlaylistList", () => {
       <PlaylistList
         checkedPlaylists={checkedPlaylists}
         setCheckedList={setCheckedList}
+        playlists={successfulUsePlaylistResult.playlists}
       />
     );
 
@@ -107,6 +108,7 @@ describe("PlaylistList", () => {
       <PlaylistList
         checkedPlaylists={checkedPlaylists}
         setCheckedList={setCheckedList}
+        playlists={successfulUsePlaylistResult.playlists}
       />
     );
 
@@ -139,7 +141,11 @@ describe("PlaylistList", () => {
     let setCheckedList = jest.fn();
 
     render(
-      <PlaylistList checkedPlaylists={[]} setCheckedList={setCheckedList} />
+      <PlaylistList
+        checkedPlaylists={[]}
+        setCheckedList={setCheckedList}
+        playlists={[]}
+      />
     );
 
     expect(screen.getByText("Failed to load")).toBeInTheDocument();
@@ -160,7 +166,11 @@ describe("PlaylistList", () => {
     let setCheckedList = jest.fn();
 
     render(
-      <PlaylistList checkedPlaylists={[]} setCheckedList={setCheckedList} />
+      <PlaylistList
+        checkedPlaylists={[]}
+        setCheckedList={setCheckedList}
+        playlists={[]}
+      />
     );
 
     expect(screen.getByText("Failed to load")).toBeInTheDocument();
@@ -178,7 +188,11 @@ describe("PlaylistList", () => {
     let setCheckedList = jest.fn();
 
     render(
-      <PlaylistList checkedPlaylists={[]} setCheckedList={setCheckedList} />
+      <PlaylistList
+        checkedPlaylists={[]}
+        setCheckedList={setCheckedList}
+        playlists={[]}
+      />
     );
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();

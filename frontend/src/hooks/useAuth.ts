@@ -11,7 +11,7 @@ export function useAuth() {
 
     const userId = getCookie("userId");
 
-    setIsAuthenticated(userId != "");
+    setIsAuthenticated(userId !== "");
   }, []);
 
   const login = async () => {

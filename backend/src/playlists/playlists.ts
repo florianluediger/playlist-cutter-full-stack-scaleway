@@ -12,12 +12,18 @@ export interface PlaylistsApiProps {
   };
   api: RestApi;
   usersTable: dynamodb.Table;
+  frontendDomainName: string;
 }
 
 export class PlaylistsApi extends Construct {
   constructor(scope: Construct, id: string, props: PlaylistsApiProps) {
     super(scope, id);
-    const playlistApiFunction = new NodejsFunction(this, "function");
+    const playlistApiFunction = new NodejsFunction(this, "function", {
+      environment: {
+        FRONTEND_URL: `https://${props.frontendDomainName}`,
+        USERS_TABLE_NAME: props.usersTable.tableName,
+      },
+    });
 
     playlistApiFunction.addToRolePolicy(
       new iam.PolicyStatement({

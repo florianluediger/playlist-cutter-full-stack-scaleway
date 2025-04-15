@@ -41,14 +41,6 @@ export class AuthApi extends Construct {
       },
     });
 
-    // Create the status check function
-    const statusFunction = new NodejsFunction(this, "status-function", {
-      environment: {
-        FRONTEND_URL: `https://${props.frontendDomainName}`,
-        USERS_TABLE_NAME: props.usersTable.tableName,
-      },
-    });
-
     // Create the logout function
     const logoutFunction = new NodejsFunction(this, "logout-function", {
       environment: {
@@ -71,7 +63,7 @@ export class AuthApi extends Construct {
     });
 
     // Grant permissions to access DynamoDB
-    [spotifyCallbackFunction, statusFunction, logoutFunction].forEach((fn) => {
+    [spotifyCallbackFunction, logoutFunction].forEach((fn) => {
       fn.addToRolePolicy(
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
@@ -90,7 +82,6 @@ export class AuthApi extends Construct {
     const authResource = props.api.root.addResource("auth");
     const spotifyResource = authResource.addResource("spotify");
     const callbackResource = spotifyResource.addResource("callback");
-    const statusResource = spotifyResource.addResource("status");
     const logoutResource = spotifyResource.addResource("logout");
 
     // Add methods to the resources
@@ -101,10 +92,6 @@ export class AuthApi extends Construct {
     callbackResource.addMethod(
       "GET",
       new apigateway.LambdaIntegration(spotifyCallbackFunction)
-    );
-    statusResource.addMethod(
-      "GET",
-      new apigateway.LambdaIntegration(statusFunction)
     );
     logoutResource.addMethod(
       "POST",

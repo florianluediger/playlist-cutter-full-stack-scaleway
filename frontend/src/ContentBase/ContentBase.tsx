@@ -1,34 +1,50 @@
 import PlaylistCreationForm from "../PlaylistCreationForm/PlaylistCreationForm";
-import { useState } from "react";
-import { GenerationStatus } from "../PlaylistGeneration/GenerationStatus";
-import PlaylistGeneration from "../PlaylistGeneration/PlaylistGeneration";
-import { emptyPlaylistGenerationInput } from "./PlaylistGenerationInput";
+import { useEffect, useState } from "react";
+import {
+  emptyPlaylistGenerationInput,
+  Playlist,
+} from "../../../common/src/types";
 
 export function ContentBase() {
-  const [generationStatus, setGenerationStatus] = useState(
-    GenerationStatus.INACTIVE
-  );
   const [playlistGenerationInput, setPlaylistGenerationInput] = useState(
     emptyPlaylistGenerationInput()
   );
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+
+  useEffect(() => {
+    fetchPlaylists().then((playlists) => {
+      setPlaylists(playlists);
+    });
+  }, []);
+
+  async function fetchPlaylists(): Promise<Playlist[]> {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/playlists`,
+        {
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return [];
+    }
+  }
 
   function triggerGeneration() {
     //todo
     setPlaylistGenerationInput(emptyPlaylistGenerationInput());
-    setGenerationStatus(GenerationStatus.INACTIVE);
   }
 
-  if (generationStatus === GenerationStatus.INACTIVE) {
-    return (
-      <PlaylistCreationForm
-        triggerGeneration={triggerGeneration}
-        playlistGenerationInput={playlistGenerationInput}
-        setPlaylistGenerationInput={setPlaylistGenerationInput}
-      />
-    );
-  } else {
-    return <PlaylistGeneration generationStatus={generationStatus} />;
-  }
+  return (
+    <PlaylistCreationForm
+      triggerGeneration={triggerGeneration}
+      playlistGenerationInput={playlistGenerationInput}
+      setPlaylistGenerationInput={setPlaylistGenerationInput}
+      playlists={playlists}
+    />
+  );
 }
 
 export default ContentBase;

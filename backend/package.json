@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
+  "dependencies": {
+    "@playlist-cutter/common": "1.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest",

@@ -1,31 +1,15 @@
-import { useAuth } from "react-oauth2-pkce";
-import { usePlaylists } from "./usePlaylists";
 import { PlaylistListItem } from "./PlaylistListItem";
+import { Playlist } from "@playlist-cutter/common";
 
 export function PlaylistList({
   checkedPlaylists,
   setCheckedList,
+  playlists,
 }: {
   checkedPlaylists: string[];
   setCheckedList: (list: string[]) => void;
+  playlists: Playlist[];
 }) {
-  const { authService } = useAuth();
-  const { playlists, error } = usePlaylists(
-    authService.getAuthTokens().access_token
-  );
-
-  if (error) {
-    if (error.status === 401) {
-      alert("Session expired. You were logged out.");
-      authService.logout();
-    }
-    return (
-      <div>
-        <p>Failed to load</p>
-        <p>{error.status}</p>
-      </div>
-    );
-  }
   if (!playlists) return <div>Loading...</div>;
 
   function onItemChange(playlistId: string, checked: boolean) {

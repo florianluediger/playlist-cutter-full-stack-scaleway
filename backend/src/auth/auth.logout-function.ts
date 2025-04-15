@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { DynamoDBClient, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
+import { getUserIdFromCookie } from "../utils/auth-utils";
 
 const dynamoClient = new DynamoDBClient({});
 
@@ -9,10 +10,7 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-    const userId = event.headers.cookie
-      ?.split(";")
-      .find((c) => c.trim().startsWith("userId="))
-      ?.split("=")[1];
+    const userId = getUserIdFromCookie(event);
 
     if (!userId) {
       return {

@@ -85,6 +85,7 @@ it("populates data and triggers generation", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={playlistGenerationInput}
       setPlaylistGenerationInput={setPlaylistGenerationInput}
+      playlists={[]}
     />
   );
 
@@ -131,6 +132,7 @@ it("shows an error when user is not authenticated", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={emptyPlaylistGenerationInput()}
       setPlaylistGenerationInput={jest.fn()}
+      playlists={[]}
     />
   );
 
@@ -151,6 +153,7 @@ it("paints input border red when no name is specified at button click", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={playlistGenerationInput}
       setPlaylistGenerationInput={setPlaylistGenerationInput}
+      playlists={[]}
     />
   );
 
