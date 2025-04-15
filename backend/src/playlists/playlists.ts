@@ -18,14 +18,14 @@ export interface PlaylistsApiProps {
 export class PlaylistsApi extends Construct {
   constructor(scope: Construct, id: string, props: PlaylistsApiProps) {
     super(scope, id);
-    const playlistApiFunction = new NodejsFunction(this, "function", {
+    const playlistListFunction = new NodejsFunction(this, "list", {
       environment: {
         FRONTEND_URL: `https://${props.frontendDomainName}`,
         USERS_TABLE_NAME: props.usersTable.tableName,
       },
     });
 
-    playlistApiFunction.addEnvironment(
+    playlistListFunction.addEnvironment(
       "USERS_TABLE_NAME",
       props.usersTable.tableName
     );
@@ -42,7 +42,7 @@ export class PlaylistsApi extends Construct {
       props.usersTable.tableName
     );
 
-    [playlistApiFunction, playlistGenerationFunction].forEach((fn) => {
+    [playlistListFunction, playlistGenerationFunction].forEach((fn) => {
       fn.addToRolePolicy(
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
@@ -54,7 +54,7 @@ export class PlaylistsApi extends Construct {
       );
     });
 
-    [playlistApiFunction, playlistGenerationFunction].forEach((fn) => {
+    [playlistListFunction, playlistGenerationFunction].forEach((fn) => {
       fn.addToRolePolicy(
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
@@ -64,7 +64,7 @@ export class PlaylistsApi extends Construct {
       );
     });
 
-    const integration = new apigateway.LambdaIntegration(playlistApiFunction);
+    const integration = new apigateway.LambdaIntegration(playlistListFunction);
     const generationIntegration = new apigateway.LambdaIntegration(
       playlistGenerationFunction
     );

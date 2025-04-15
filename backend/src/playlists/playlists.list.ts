@@ -1,7 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { authenticateUser } from "../utils/auth-utils";
 import { Playlist } from "@playlist-cutter/common";
+
+interface SpotifyPlaylistResponse {
+  items: Playlist[];
+  next: string | null;
+}
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -23,33 +28,21 @@ export const handler = async (
     }
 
     const { accessToken } = authResult.user!;
+    const allPlaylists: Playlist[] = [];
+    let nextUrl: string | null =
+      "https://api.spotify.com/v1/me/playlists?limit=50";
 
-    // Fetch the user's playlists from Spotify
-    const playlistsResponse = await axios.get(
-      "https://api.spotify.com/v1/me/playlists",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          limit: 50, // Maximum number of playlists to fetch
-        },
-      }
-    );
+    while (nextUrl) {
+      const playlistsResponse: AxiosResponse<SpotifyPlaylistResponse> =
+        await axios.get(nextUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
-    const playlists: Playlist[] = playlistsResponse.data.items.map(
-      (playlist: any) => ({
-        id: playlist.id,
-        name: playlist.name,
-        external_urls: {
-          spotify: playlist.external_urls.spotify,
-        },
-        tracks: {
-          href: playlist.tracks.href,
-          total: playlist.tracks.total,
-        },
-      })
-    );
+      allPlaylists.push(...playlistsResponse.data.items);
+      nextUrl = playlistsResponse.data.next;
+    }
 
     return {
       statusCode: 200,
@@ -58,7 +51,7 @@ export const handler = async (
         "Access-Control-Allow-Origin": frontendUrl,
         "Access-Control-Allow-Credentials": "true",
       },
-      body: JSON.stringify(playlists),
+      body: JSON.stringify(allPlaylists),
     };
   } catch (error) {
     console.error("Error fetching playlists:", error);
