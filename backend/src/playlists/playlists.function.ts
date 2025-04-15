@@ -6,9 +6,9 @@ import { Playlist } from "@playlist-cutter/common";
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  try {
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
+  try {
     const authResult = await authenticateUser(event);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
@@ -58,7 +58,8 @@ export const handler = async (
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
       },
       body: JSON.stringify({ error: "Failed to fetch playlists" }),
     };

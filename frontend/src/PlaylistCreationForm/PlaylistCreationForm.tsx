@@ -1,6 +1,6 @@
 import { PlaylistList } from "./PlaylistList";
 import React, { FormEvent, useState } from "react";
-import { PlaylistGenerationInput } from "../ContentBase/PlaylistGenerationInput";
+import { PlaylistGenerationInput } from "@playlist-cutter/common";
 import { useAuth } from "../hooks/useAuth";
 import { Playlist } from "@playlist-cutter/common";
 export function PlaylistCreationForm({

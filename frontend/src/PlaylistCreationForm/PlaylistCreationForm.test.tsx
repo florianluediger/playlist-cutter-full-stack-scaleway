@@ -4,7 +4,7 @@ import { useAuth } from "react-oauth2-pkce";
 import {
   emptyPlaylistGenerationInput,
   PlaylistGenerationInput,
-} from "../ContentBase/PlaylistGenerationInput";
+} from "@playlist-cutter/common";
 import { usePlaylists } from "./usePlaylists";
 
 jest.mock("react-oauth2-pkce", () => {

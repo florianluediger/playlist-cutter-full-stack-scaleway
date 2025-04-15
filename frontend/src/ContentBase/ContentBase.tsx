@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   emptyPlaylistGenerationInput,
   Playlist,
-} from "../../../common/src/types";
+} from "@playlist-cutter/common";
 
 export function ContentBase() {
   const [playlistGenerationInput, setPlaylistGenerationInput] = useState(
@@ -33,7 +33,30 @@ export function ContentBase() {
   }
 
   function triggerGeneration() {
-    //todo
+    fetch(`${process.env.REACT_APP_API_URL}/playlists/generation`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(playlistGenerationInput),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Refresh the playlists after successful generation
+        fetchPlaylists().then((playlists) => {
+          setPlaylists(playlists);
+        });
+      })
+      .catch((error) => {
+        console.error("Error generating playlist:", error);
+      });
+
     setPlaylistGenerationInput(emptyPlaylistGenerationInput());
   }
 
