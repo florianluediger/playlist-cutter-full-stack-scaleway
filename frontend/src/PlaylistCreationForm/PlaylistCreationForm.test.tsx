@@ -1,34 +1,12 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import PlaylistCreationForm from "./PlaylistCreationForm";
-import { useAuth } from "react-oauth2-pkce";
 import {
   emptyPlaylistGenerationInput,
   PlaylistGenerationInput,
 } from "@playlist-cutter/common";
-import { usePlaylists } from "./usePlaylists";
+import { useAuth } from "../hooks/useAuth";
 
-jest.mock("react-oauth2-pkce", () => {
-  return {
-    useAuth: jest.fn(),
-  };
-});
-
-jest.mock("./usePlaylists", () => {
-  return {
-    usePlaylists: jest.fn(),
-  };
-});
-
-let successfulUseAuthResult = {
-  authService: {
-    getAuthTokens: () => {
-      return { access_token: "access_token" };
-    },
-    isAuthenticated: () => {
-      return true;
-    },
-  },
-};
+jest.mock("../hooks/useAuth");
 
 let playlistExampleData = {
   playlists: [
@@ -72,9 +50,9 @@ let playlistExampleData = {
 let triggerGeneration = jest.fn();
 
 it("populates data and triggers generation", () => {
-  (useAuth as jest.Mock).mockReturnValue(successfulUseAuthResult);
-  (usePlaylists as jest.Mock).mockReturnValue(playlistExampleData);
-
+  (useAuth as jest.Mock).mockReturnValue({
+    isAuthenticated: true,
+  });
   let playlistGenerationInput = emptyPlaylistGenerationInput();
   let setPlaylistGenerationInput = (updatedValue: PlaylistGenerationInput) => {
     playlistGenerationInput = updatedValue;
@@ -85,7 +63,7 @@ it("populates data and triggers generation", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={playlistGenerationInput}
       setPlaylistGenerationInput={setPlaylistGenerationInput}
-      playlists={[]}
+      playlists={playlistExampleData.playlists}
     />
   );
 
@@ -120,11 +98,7 @@ it("populates data and triggers generation", () => {
 
 it("shows an error when user is not authenticated", () => {
   (useAuth as jest.Mock).mockReturnValue({
-    authService: {
-      isAuthenticated: () => {
-        return false;
-      },
-    },
+    isAuthenticated: false,
   });
 
   render(
@@ -132,7 +106,7 @@ it("shows an error when user is not authenticated", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={emptyPlaylistGenerationInput()}
       setPlaylistGenerationInput={jest.fn()}
-      playlists={[]}
+      playlists={playlistExampleData.playlists}
     />
   );
 
@@ -140,8 +114,9 @@ it("shows an error when user is not authenticated", () => {
 });
 
 it("paints input border red when no name is specified at button click", () => {
-  (useAuth as jest.Mock).mockReturnValue(successfulUseAuthResult);
-  (usePlaylists as jest.Mock).mockReturnValue(playlistExampleData);
+  (useAuth as jest.Mock).mockReturnValue({
+    isAuthenticated: true,
+  });
 
   let playlistGenerationInput = emptyPlaylistGenerationInput();
   let setPlaylistGenerationInput = (updatedValue: PlaylistGenerationInput) => {
@@ -153,7 +128,7 @@ it("paints input border red when no name is specified at button click", () => {
       triggerGeneration={triggerGeneration}
       playlistGenerationInput={playlistGenerationInput}
       setPlaylistGenerationInput={setPlaylistGenerationInput}
-      playlists={[]}
+      playlists={playlistExampleData.playlists}
     />
   );
 

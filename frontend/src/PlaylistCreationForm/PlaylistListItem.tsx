@@ -1,5 +1,4 @@
 import { Playlist } from "@playlist-cutter/common";
-import spotify_icon from "../spotify_icon.png";
 
 export function PlaylistListItem({
   playlist,
