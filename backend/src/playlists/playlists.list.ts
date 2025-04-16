@@ -3,6 +3,12 @@ import axios, { AxiosResponse } from "axios";
 import { authenticateUser } from "../utils/auth-utils";
 import { Playlist } from "@playlist-cutter/common";
 
+const getResponseHeaders = (frontendUrl: string) => ({
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": frontendUrl,
+  "Access-Control-Allow-Credentials": "true",
+});
+
 interface SpotifyPlaylistResponse {
   items: Playlist[];
   next: string | null;
@@ -18,11 +24,7 @@ export const handler = async (
     if (authResult.errorResponse) {
       return {
         statusCode: 401,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": frontendUrl,
-          "Access-Control-Allow-Credentials": "true",
-        },
+        headers: getResponseHeaders(frontendUrl),
         body: authResult.errorResponse.body,
       };
     }
@@ -46,22 +48,23 @@ export const handler = async (
 
     return {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": frontendUrl,
-        "Access-Control-Allow-Credentials": "true",
-      },
+      headers: getResponseHeaders(frontendUrl),
       body: JSON.stringify(allPlaylists),
     };
   } catch (error) {
     console.error("Error fetching playlists:", error);
+
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      return {
+        statusCode: 401,
+        headers: getResponseHeaders(frontendUrl),
+        body: JSON.stringify({ error: "Unauthorized access to Spotify API" }),
+      };
+    }
+
     return {
       statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": frontendUrl,
-        "Access-Control-Allow-Credentials": "true",
-      },
+      headers: getResponseHeaders(frontendUrl),
       body: JSON.stringify({ error: "Failed to fetch playlists" }),
     };
   }

@@ -13,7 +13,7 @@ export function ContentBase() {
   );
   const [generationActive, setGenerationActive] = useState<Boolean>(false);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -27,7 +27,11 @@ export function ContentBase() {
     })
       .then((response) => {
         if (!response.ok) {
-          console.log("Error fetching playlists");
+          if (response.status === 401) {
+            logout();
+            alert("Session expired. You were logged out.");
+          }
+          return Promise.resolve([]);
         }
         return response.json();
       })
