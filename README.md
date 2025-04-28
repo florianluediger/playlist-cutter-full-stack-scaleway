@@ -14,3 +14,7 @@ You can access the application here: https://florianluediger.github.io/playlist-
 ## Authentication flow
 
 ![Authentication flow](authentication_flow.svg)
+
+## Accessing Spotify API
+
+![Accessing Spotify API](spotify_access_flow.svg)
