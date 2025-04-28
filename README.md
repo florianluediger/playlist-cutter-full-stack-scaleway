@@ -10,3 +10,7 @@ You can access the application here: https://florianluediger.github.io/playlist-
 ## Architecture overview
 
 ![Architecture overview](architecture_overview.svg)
+
+## Authentication flow
+
+![Authentication flow](authentication_flow.svg)
