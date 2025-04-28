@@ -18,7 +18,7 @@ export interface PlaylistsApiProps {
 export class PlaylistsApi extends Construct {
   constructor(scope: Construct, id: string, props: PlaylistsApiProps) {
     super(scope, id);
-    const playlistListFunction = new NodejsFunction(this, "list", {
+    const playlistListFunction = new NodejsFunction(this, "list-function", {
       environment: {
         FRONTEND_URL: `https://${props.frontendDomainName}`,
         USERS_TABLE_NAME: props.usersTable.tableName,
@@ -30,7 +30,7 @@ export class PlaylistsApi extends Construct {
       props.usersTable.tableName
     );
 
-    const playlistGenerationFunction = new NodejsFunction(this, "generation", {
+    const playlistGenerationFunction = new NodejsFunction(this, "generation-function", {
       environment: {
         FRONTEND_URL: `https://${props.frontendDomainName}`,
         USERS_TABLE_NAME: props.usersTable.tableName,

@@ -6,3 +6,7 @@ The basic principle looks like this:
 **_Give me all songs from playlists X but exclude all songs from playlist Y_**
 
 You can access the application here: https://florianluediger.github.io/playlist-cutter/
+
+## Architecture overview
+
+![Architecture overview](architecture_overview.svg)
