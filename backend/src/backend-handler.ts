@@ -13,8 +13,8 @@ const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
 const scalewayClient = createScalewayClient(
     {
-        accessKey: process.env.ACCESS_KEY,
-        secretKey: process.env.SECRET_KEY
+        accessKey: process.env.SCALEWAY_ACCESS_KEY,
+        secretKey: process.env.SCALEWAY_SECRET_KEY
     }
 )
 const secret = new Secret.v1beta1.API(scalewayClient)
@@ -37,8 +37,8 @@ export async function handle(event: ApiGatewayEvent) {
         const spotifySecret = await secret.accessSecretVersionByPath({
             region: "fr-par",
             projectId: process.env.PROJECT_ID,
-            secretPath: "/playlist-cutter",
-            secretName: "spotify-credentials",
+            secretPath: process.env.SPOTIFY_SECRET_PATH || "",
+            secretName: process.env.SPOTIFY_SECRET_NAME || "",
             revision: "latest"
         })
         const spotifyCredentials = JSON.parse(Buffer.from(spotifySecret.data, "base64").toString());
