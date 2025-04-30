@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
+  "type": "module",
   "dependencies": {
     "@playlist-cutter/common": "1.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "ncc build src/backend-handler.ts -o build/backend-handler",
+    "package": "pushd build && zip -r backend-handler backend-handler && popd",
     "test": "jest",
     "lint": "eslint . --ext .ts"
   }

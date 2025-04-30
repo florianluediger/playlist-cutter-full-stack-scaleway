@@ -4,7 +4,7 @@
 .pnp.js
 
 # production
-/build
+*/build/*
 */dist/*
 
 # misc
@@ -20,3 +20,7 @@ yarn-error.log*
 
 .idea
 *.iml
+
+terraform.tfstate*
+.terraform.lock.hcl
+.terraform/*

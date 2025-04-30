@@ -5,32 +5,29 @@
   "homepage": "https://florianluediger.github.io/playlist-cutter",
   "workspaces": [
     "frontend",
-    "cdk",
     "backend",
     "common"
   ],
   "scripts": {
-    "cdk": "npm -w cdk run cdk",
     "build": "npm run build:common && npm run build:frontend",
     "build:common": "npm -w common run build",
     "build:frontend": "npm -w frontend run build"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.535.0",
-    "@aws-sdk/util-dynamodb": "^3.535.0",
-    "@aws-sdk/client-s3": "^3.535.0",
-    "@aws-sdk/client-ssm": "^3.535.0",
-    "aws-lambda": "^1.0.7",
-    "axios": "^1.8.0"
+    "axios": "^1.8.0",
+    "@scaleway/configuration-loader": "^1.0.7",
+    "@scaleway/sdk": "2.74.0",
+    "redis": "^4.7.0",
+    "@types/uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.136",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "typescript": "^5.3.3",
     "@types/node": "^22.0.0",
     "prettier": "^2.6.2",
     "eslint": "^9.23.0",
-    "eslint-config-prettier": "^10.1.1"
+    "eslint-config-prettier": "^10.1.1",
+    "@vercel/ncc": "^0.38.3"
   }
 }
