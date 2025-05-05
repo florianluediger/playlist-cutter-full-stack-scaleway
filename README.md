@@ -47,7 +47,8 @@ Create a new version and put in the following values.
 You can deploy the frontend files using the AWS cli.
 You need to create a profile for the Scaleway credentials first.
 [Have a look at the documentation here.](https://www.scaleway.com/en/docs/object-storage/api-cli/object-storage-aws-cli/)
-Then you can deploy the frontend.
+Then you can deploy the frontend. 
+When creating the access key, make sure that you check the box to use the key for accessing object storage and select the playlist-cutter project.
 
 `npm -w frontend run deploy`
 
