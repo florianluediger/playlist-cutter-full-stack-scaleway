@@ -1,4 +1,5 @@
 export interface ApiGatewayEvent {
+    httpMethod: string,
     path: string,
     body: string,
     queryStringParameters: {

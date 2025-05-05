@@ -1,25 +1,19 @@
 import {RedisClientType} from "redis";
-import {getUnauthorizedResponse, getUserIdFromRecordCookie, User} from "../utils/auth-utils";
+import {getResponseHeaders, getUnauthorizedResponse, getUserIdFromRecordCookie, User} from "../utils/auth-utils";
 import {Playlist} from "@playlist-cutter/common";
 import axios, {AxiosResponse} from "axios";
 import {ApiGatewayEvent} from "../utils/api-gateway-event";
-
-const getResponseHeaders = (frontendUrl: string) => ({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": frontendUrl,
-    "Access-Control-Allow-Credentials": "true",
-});
 
 interface SpotifyPlaylistResponse {
     items: Playlist[];
     next: string | null;
 }
 
-export async function listPlaylists(event: ApiGatewayEvent, redisClient: RedisClientType<any, any, any>) {
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+export async function listPlaylists(event: ApiGatewayEvent, redisClient: RedisClientType<any, any, any>, frontendUrl: string) {
+    try {
     const userId = getUserIdFromRecordCookie(event);
     if (!userId) {
-        return { errorResponse: getUnauthorizedResponse() };
+        return { errorResponse: getUnauthorizedResponse(frontendUrl) };
     }
     await redisClient.connect();
     const user: User = JSON.parse(await redisClient.get(userId) || "");
@@ -46,4 +40,21 @@ export async function listPlaylists(event: ApiGatewayEvent, redisClient: RedisCl
         headers: getResponseHeaders(frontendUrl),
         body: JSON.stringify(allPlaylists),
     };
+} catch (error) {
+    console.error("Error fetching playlists:", error);
+
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+        return {
+            statusCode: 401,
+            headers: getResponseHeaders(frontendUrl),
+            body: JSON.stringify({ error: "Unauthorized access to Spotify API" }),
+        };
+    }
+
+    return {
+        statusCode: 500,
+        headers: getResponseHeaders(frontendUrl),
+        body: JSON.stringify({ error: "Failed to fetch playlists" }),
+    };
+}
 }

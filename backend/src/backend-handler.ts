@@ -33,17 +33,43 @@ const redisClient = createRedisClient({
 
 
 export async function handle(event: ApiGatewayEvent) {
+    if (event.httpMethod === "OPTIONS") {
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Headers": "Content-Type,Cookie",
+                "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+                "Access-Control-Allow-Origin": frontendUrl,
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Expose-Headers": "Set-Cookie",
+            },
+            body: ""
+        }
+    }
     if (spotifyClientId === "") {
-        const spotifySecret = await secret.accessSecretVersionByPath({
-            region: "fr-par",
-            projectId: process.env.PROJECT_ID,
-            secretPath: process.env.SPOTIFY_SECRET_PATH || "",
-            secretName: process.env.SPOTIFY_SECRET_NAME || "",
-            revision: "latest"
-        })
-        const spotifyCredentials = JSON.parse(Buffer.from(spotifySecret.data, "base64").toString());
-        spotifyClientId = spotifyCredentials.clientId || "";
-        spotifyClientSecret = spotifyCredentials.clientSecret || "";
+        try {
+            const spotifySecret = await secret.accessSecretVersionByPath({
+                region: "fr-par",
+                projectId: process.env.PROJECT_ID,
+                secretPath: process.env.SPOTIFY_SECRET_PATH || "",
+                secretName: process.env.SPOTIFY_SECRET_NAME || "",
+                revision: "latest"
+            })
+            const spotifyCredentials = JSON.parse(Buffer.from(spotifySecret.data, "base64").toString());
+            spotifyClientId = spotifyCredentials.clientId || "";
+            spotifyClientSecret = spotifyCredentials.clientSecret || "";
+        } catch (error) {
+            console.error("Error fetching secret from secrets manager", error);
+            return {
+                statusCode: 500,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": frontendUrl,
+                    "Access-Control-Allow-Credentials": "true",
+                },
+                body: JSON.stringify({ error: "Error fetching secret from secrets manager" }),
+            }
+        }
     }
     if (event.path === "/auth/spotify") {
         return redirect_for_authentication(spotifyClientId, redirectUri);
@@ -52,13 +78,17 @@ export async function handle(event: ApiGatewayEvent) {
     } else if (event.path === "/auth/spotify/logout") {
         return await logoutUser(event, redisClient, frontendUrl);
     } else if (event.path === "/playlists") {
-        return await listPlaylists(event, redisClient);
+        return await listPlaylists(event, redisClient, frontendUrl);
     } else if (event.path === "/playlists/generation") {
-        return await generatePlaylist(event, redisClient);
+        return await generatePlaylist(event, redisClient, frontendUrl);
     } else {
         return {
             body: "Not found",
-            headers: { "Content-Type": ["application/json"] },
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": frontendUrl,
+                "Access-Control-Allow-Credentials": "true",
+            },
             statusCode: 404,
         }
     }
